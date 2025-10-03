@@ -6,7 +6,7 @@ Ce projet implémente un jeu de morpion (tic-tac-toe) en ligne de commande avec 
 Fonctionnalités:  
 -Apprentissage par renforcement : L'IA apprend de ses victoires et améliore sa stratégie  
 -Sauvegarde persistante : Les connaissances de l'IA sont sauvegardées dans un fichier local (ia_donnees.bin) (-> suppression du fichier pour reprendre à 0)  
--Interface simple : Jeu en ligne de commande avec numérotation des cases de 1 à 9 
+-Interface simple : Jeu en ligne de commande avec numérotation des cases de 1 à 9  
 Principe d'apprentissage:  
 À chaque coup, l'IA mémorise l'état du plateau et l'action choisie. Si l'IA gagne la partie, tous les coups joués sont récompensés (leur valeur augmente de 0.1) Si l'IA perd ou fait match nul, aucune modification n'est apportée. L'IA utilise 10% d'exploration aléatoire pour découvrir de nouvelles stratégies.  
 Plus vous jouez contre l'IA, plus elle devient forte !  
