@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "jeu.h"
-#include "ia.h"
+#include "game.h"
+#include "ai.h"
 
 int main() {
     Jeu jeu;
@@ -37,21 +37,24 @@ int main() {
         
         if (jeu.joueur_actuel == humain_joueur) {
             int position;
-            printf("Votre tour ! Entrez un numéro (1-9) : ");
+            printf("A ton tour ! Entrez un numero (1 a 9) : ");
             scanf("%d", &position);
             position--;
             
             if (coup_valide(&jeu, position)) {
+                historique_humain[taille_historique_humain].etat = obtenir_hash(&jeu);
+                historique_humain[taille_historique_humain].coup = position;
+                taille_historique_humain++;
                 jouer_coup(&jeu, position);
             } else {
-                printf("Coup invalide ! Réessayez.\n");
+                printf("Coup invalide ! Reessayez.\n");
                 continue;
             }
         } else {
-            printf("L'IA réfléchit...\n");
+            printf("L'IA reflechit...\n");
             int coup_ia = ia_choisir_coup(&ia, &jeu, ia_joueur);
             jouer_coup(&jeu, coup_ia);
-            printf("L'IA a joué en case %d\n", coup_ia + 1);
+            printf("L'IA a joue en case %d\n", coup_ia + 1);
         }
         
         gagnant = verifier_victoire(&jeu);
@@ -65,10 +68,10 @@ int main() {
     afficher_plateau(&jeu);
     
     if (gagnant == humain_joueur) {
-        printf("\n Vous avez gagné !\n");
-        ia_apprendre(&ia, 0);
+        printf("\n Vous avez gagne !\n");
+        ia_apprendre(&ia, 2);
     } else if (gagnant == ia_joueur) {
-        printf("\n L'IA a gagné !\n");
+        printf("\n L'IA a gagne !\n");
         ia_apprendre(&ia, 1);
     } else {
         printf("\n Match nul !\n");
@@ -76,7 +79,7 @@ int main() {
     }
     
     sauvegarder_ia(&ia);
-    printf("Connaissances de l'IA sauvegardées.\n");
+    printf("Sauvegarde terminee avec %d etats\n", ia.nombre);
     
     return 0;
 }

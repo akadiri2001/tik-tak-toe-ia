@@ -1,4 +1,4 @@
-#include "jeu.h"
+#include "game.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -63,10 +63,46 @@ int plateau_plein(const Jeu *jeu) {
     return 1;
 }
 
-unsigned long long obtenir_hash(const Jeu *jeu) {
-    unsigned long long hash = 0;
+
+void copier_plateau(const Case *src, Case *dest) {
     for (int i = 0; i < TAILLE_PLATEAU; i++) {
-        hash = hash * 3 + jeu->plateau[i];
+        dest[i] = src[i];
     }
-    return hash;
 }
+
+void rotation_90(const Case *src, Case *dest) {
+    dest[0] = src[6]; dest[1] = src[3]; dest[2] = src[0];
+    dest[3] = src[7]; dest[4] = src[4]; dest[5] = src[1];
+    dest[6] = src[8]; dest[7] = src[5]; dest[8] = src[2];
+}
+
+void miroir_horizontal(const Case *src, Case *dest) {
+    dest[0] = src[2]; dest[1] = src[1]; dest[2] = src[0];
+    dest[3] = src[5]; dest[4] = src[4]; dest[5] = src[3];
+    dest[6] = src[8]; dest[7] = src[7]; dest[8] = src[6];
+}
+
+unsigned long long obtenir_hash(const Jeu *jeu) {
+    Case variantes[8][TAILLE_PLATEAU];
+
+    copier_plateau(jeu->plateau, variantes[0]);
+    rotation_90(variantes[0], variantes[1]);
+    rotation_90(variantes[1], variantes[2]);
+    rotation_90(variantes[2], variantes[3]);
+    miroir_horizontal(variantes[0], variantes[4]);
+    rotation_90(variantes[4], variantes[5]);
+    rotation_90(variantes[5], variantes[6]);
+    rotation_90(variantes[6], variantes[7]);
+
+    unsigned long long min_hash = -1ULL;
+    for (int i = 0; i < 8; i++) {
+        unsigned long long h = 0;
+        for (int j = 0; j < TAILLE_PLATEAU; j++) {
+            h = h * 3 + variantes[i][j];
+        }
+        if (h < min_hash) min_hash = h;
+    }
+
+    return min_hash;
+}
+
