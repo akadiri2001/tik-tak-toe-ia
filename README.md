@@ -2,7 +2,7 @@
 A simple tic-tac-toe game featuring an AI that learns from experience using reinforcement learning.  
 The AI improves its gameplay by learning from victories and storing knowledge between sessions.  
 
-Ce projet implémente un jeu de morpion (tic-tac-toe) en ligne de commande avec une intelligence artificielle qui apprend par renforcement.  
+Ce projet implémente un agent capable de jouer au morpion (tic-tac-toe) en ligne de commande, en utilisant une approche d’apprentissage par renforcement. Ce projet m’a permis de comprendre les bases du reinforcement learning, notamment la notion de récompense, d’état, et de stratégie d’exploration.
 
 Fonctionnalités:  
 
